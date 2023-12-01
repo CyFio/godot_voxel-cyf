@@ -59,29 +59,29 @@
 - `COLOR`: 颜色信息. 它可以是压缩的RGBA, 也可以是调色板的索引.
 - 其他.
 
-The engine uses the first channels, while others are unused for now. Each channel can also use a configurable bit depth: 8, 16, 32 or 64 bits. This allows to tune quality and memory usage depending on your needs.
-Finally, a simple optimization is applied so that if a channel is filled with the same value, it won't allocate memory and instead store just that value. This way, areas such as the sky don't take up memory.
+引擎使用第一个通道, 而其他通道暂时未使用. 每个通道还可以使用可配置的位深度: 8, 16, 32 或 64 bits. 这允许根据您的需要调整质量和内存使用情况.
+最后, 该类做了一个小的内存优化，当通道内填充相同值时, 不会发生额外的内存分配. 
 
 
-Saving voxels to disk
+将体素保存到硬盘
 -----------------------
 
 ![Raw region file seen as an image](images/region_file_seen_as_image.png)
 
-When players make edits to the world or when you want to sculpt a terrain in the editor and keep your changes saved, it becomes necessary to save voxels to disk.
+当玩家对世界做出修改或者当你想要在编辑器内手动雕刻一个地形并保存时, 将体素保存到硬盘就是必要的操作.
 
-This module implements this functionality with [VoxelStream](api/VoxelStream.md). Similarly to generators, a stream allows to request blocks of voxels so that it's not necessary to load the entire thing at once. But also, it allows to send back blocks of voxels to save them.
-This block-based approach is especially useful if the world is very large. In contrast, smaller volumes might just be loaded all at once. Subclasses may implement it in various ways, often using compressed files.
+该模块通过体素流[VoxelStream](api/VoxelStream.md)实现此功能. 和生成器类似, 一个流允许请求体素块，因此不需要一次性加载所有物体. 另外, 它也允许将一系列体素块输入保存.
+如果世界很大，这种基于块的方法将特别有用. 相反, 较小的体积也许只需要一次性加载. 子类可以用多种方法来实现它, 通常使用压缩文件. 
 
 
-Turning voxels into meshes
+将体素转化为网格体
 ----------------------------
 
 ![Cubes and wireframe](images/cubes_and_wireframe.webp)
 
-Today's graphics cards are getting more and more powerful, but in average, polygons (meshes) remain the fastest way to render 3D models. So we are not really going to directly draw voxels. Instead, we have to convert them into polygons, which will then be rendered. To do this, this engine uses a resource called [VoxelMesher](api/VoxelMesher.md).
+现在的显卡性能越来越强了, 但是平均而言, 多边形(网格体)仍然是最快的3D模型渲染方法. 因此, 我们并不是真的直接去绘制体素. 作为替代, 我们需要先将他们转化成多边形, 然后再进一步渲染. 该引擎使用[VoxelMesher](api/VoxelMesher.md)来实现这一转化步骤.
 
-There are several ways to produce polygons from voxel data, and the engine provides types of meshers to do it:
+有多种方法从体素数据转生成多边形数据, 该引擎提供了数种mesher转化器:
 
 - [VoxelMesherCubes](api/VoxelMesherCubes.md): the color of voxels is used to produce colored cubes. This is the simplest way to polygonize voxels.
 - [VoxelMesherBlocky](api/VoxelMesherBlocky.md): the type of voxels is used to batch together meshes corresponding to that type. This can also use cubes, but any shape will do if custom meshes are provided. This is a similar technique as the one used in Minecraft, and has a wide range of options.
