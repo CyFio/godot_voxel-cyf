@@ -83,27 +83,26 @@
 
 有多种方法从体素数据转生成多边形数据, 该引擎提供了数种mesher转化器:
 
-- [VoxelMesherCubes](api/VoxelMesherCubes.md): the color of voxels is used to produce colored cubes. This is the simplest way to polygonize voxels.
-- [VoxelMesherBlocky](api/VoxelMesherBlocky.md): the type of voxels is used to batch together meshes corresponding to that type. This can also use cubes, but any shape will do if custom meshes are provided. This is a similar technique as the one used in Minecraft, and has a wide range of options.
-- [VoxelMesherTransvoxel](api/VoxelMesherTransvoxel.md): instead of making cubes, this one uses the SDF value to produce a smooth surface, based on the [Transvoxel](https://transvoxel.org/) algorithm. It can also produce transition meshes, which is useful to stitch together two meshes of different level of detail.
-- [VoxelMesherDMC](api/VoxelMesherDMC.md): variant using dual marching cubes to produce a smooth surface, [as explained in these articles](https://www.volume-gfx.com/volume-rendering/). However this implementation is no longer maintained.
+- [VoxelMesherCubes](api/VoxelMesherCubes.md):  体素的颜色被用来创建着色的方块. 这是最简单的体素多边形化方法. 
+- [VoxelMesherBlocky](api/VoxelMesherBlocky.md): 体素的类型被用于将同类型网格体划分到同一批次进行处理. 这也可以使用方块, 但是提供自定义网格后也可以使用其他的形状. 这个方法和我的世界中的方法类似, 并且有很多设置选项. 
+- [VoxelMesherTransvoxel](api/VoxelMesherTransvoxel.md): 该方法不使用方块, 而是使用SDF值, 基于[Transvoxel](https://transvoxel.org/)算法来创建平滑表面. 它还可以生成过渡网格体, 在实现两种不同网格体的缝合上非常有用. 
+- [VoxelMesherDMC](api/VoxelMesherDMC.md): 使用双行进立方体生成光滑表面的变体, [介绍文章见链接](https://www.volume-gfx.com/volume-rendering/). 但是, 算法实现目前已经不维护了. [DMC](https://zhuanlan.zhihu.com/p/108459593?from_voters_page=true)
 
 
-Putting it together with nodes
+通过节点将体素放在一起
 -------------------------------
 
 ![Game screenshots](images/game_examples.webp)
 
-So far, we could consider that there are enough tools to use voxels within games. It's a bit more work to take it from there, though.
+目前, 我们可以认为已经有足够的工具来在游戏中使用体素. 但是, 在此之前我们还有一些额外工作要做. 
 
-Turning a bunch of voxels into a mesh is ok for a model or a small piece of land, however it won't scale well with large editable terrains. It gets more tricky if that terrain needs to have a large view distance. Very often, the proposed solution is to split it into chunks, eventually using variable level of detail, and properly update parts of that terrain when they are modified by players. This is what the `VoxelTerrain*` nodes do, by putting together the tools seen before, and using threads to run heavy operations in the background.
+对于单个模型或者一小块地形, 将一堆体素转化为单个网格体是可行的, 但是这种做法并不能很好地扩展到大片可编辑地形的情形. 如果地形需要有一个大的可视范围, 这个问题将更加棘手. 通常, 采取的解决方法是将其划分为区块, 最终使用多个细节层级, 并且在地形被玩家修改时正确更新被改动的部分. 这就是体素地形`VoxelTerrain*`节点的功能, 通过将前文所述的工具整合在一起, 并且使用多线程在后台执行繁重操作实现.
 
-!!! note
-    In this engine, "Chunks" are actually called "Blocks". They typically represent cubes of 16x16x16 voxels. Some options are specified in blocks, rather than spatial units.
+> 在这个引擎中, 区块"Chunks"被称为"Blocks". 它们通常代表 16x16x16 体素的立方体. 一些操作就是针对区块的, 而不是一般的空间单位. 
 
-There are two main types of terrains supported by the engine:
+该引擎主要支持两类主要地形: 
 
-- [VoxelTerrain](api/VoxelTerrain.md): this one uses a simple grid of blocks, and takes care of loading and unloading blocks as the viewer moves around. Its view distance is limited in similar ways to Minecraft, so it is better used with blocky voxels or moderate-size smooth volumes.
+- [VoxelTerrain](api/VoxelTerrain.md): 这个地形使用一个简单的区块网格, 当观察者移动时负责区块的加载和卸载. 它的视距和MC中的限制是类似的, 因此最好和盒状体素或者中等大小的平滑体积一起使用. 
 
 - [VoxelLodTerrain](api/VoxelLodTerrain.md): this one uses an octree of blocks. Contrary to a simple grid, this allows to store voxels at multiple levels of detail, allowing to render much larger distances. It only supports smooth voxels though, and has different limitations compared to the other.
 
