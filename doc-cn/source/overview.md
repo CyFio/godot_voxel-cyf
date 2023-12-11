@@ -104,9 +104,9 @@
 
 - [VoxelTerrain](api/VoxelTerrain.md): 这个地形使用一个简单的区块网格, 当观察者移动时负责区块的加载和卸载. 它的视距和MC中的限制是类似的, 因此最好和盒状体素或者中等大小的平滑体积一起使用. 
 
-- [VoxelLodTerrain](api/VoxelLodTerrain.md): this one uses an octree of blocks. Contrary to a simple grid, this allows to store voxels at multiple levels of detail, allowing to render much larger distances. It only supports smooth voxels though, and has different limitations compared to the other.
+- [VoxelLodTerrain](api/VoxelLodTerrain.md): 使用八叉树区块, 和简单网格不同, 这允许将体素以不同细节层级存储, 从而允许渲染相比而言远得多的距离. 但是, 它仅支持平滑体素, 并且使用上和前者有不同的限制. 
 
-Both kinds of terrains can be edited in real time, and only the edited parts will be re-meshed dynamically. A helper class [VoxelTool](api/VoxelTool.md) is exposed to the script API to simplify the process of editing voxels, which can be obtained by using `get_voxel_tool()` methods. It allows to set single voxels, dig around or blend simple shapes such as spheres or boxes. The same concept of channels seen earlier is available on this API, so depending on the type of mesher you are using, you may want to edit either `TYPE`, `SDF` or `COLOR` channels.
+两种地形都支持实时编辑, 而且只有被编辑的部分会被动态重建. A helper class [VoxelTool](api/VoxelTool.md) is exposed to the script API to simplify the process of editing voxels, which can be obtained by using `get_voxel_tool()` methods. It allows to set single voxels, dig around or blend simple shapes such as spheres or boxes. The same concept of channels seen earlier is available on this API, so depending on the type of mesher you are using, you may want to edit either `TYPE`, `SDF` or `COLOR` channels.
 
 Finally, for these terrains to load, it is required to place at least one [VoxelViewer](api/VoxelViewer.md) node in the world. These may be placed typically as child of the player, or the main `Camera3D`. They tell the voxel engine where to load voxels, how far, and give priority to mesh updates happening near them.
 
