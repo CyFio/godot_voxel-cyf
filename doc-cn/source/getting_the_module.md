@@ -70,15 +70,15 @@
 ### 添加体素插件
 
 1. 下载或克隆[体素工具](https://github.com/Zylann/godot_voxel)仓库。如果你想更轻松地更新你的构建，请使用Git克隆(推荐)。
-2. By default, the `master` branch of the module should work with the latest stable branch of Godot. There are "snapshot" branches of the module, which were created at the time specific Godot versions were released (such as `godot4.0`), but they are not updated.
-3. Place the Voxel Tools directory inside your Godot source tree, in the `godot/modules` directory. 
-4. Rename the Voxel Tools folder to `voxel`. When correct, the files (e.g. README.md) will be located in `godot/modules/voxel`. **This is important!**
-5. Rebuild Godot and make sure it produces an executable.
-6. Test that your build has Voxel support:
-	1. Run your new Godot build.
-	2. Create a new project.
-	3. Create a new 3D scene.
-	4. Add a new node, search for "Voxel" and see if "VoxelTerrain" appears. If so, you have a successful build. If not, review these instructions and your build logs to see if you missed a step or something failed along the way.
+2. 默认情况，模块的`master`分支可以在Godot的最新稳定分支下工作。模块有一些“快照”版本，它们在特定的Godot发布版本时创建，但之后不会更新(比如 `godot4.0`)。
+3. 将体素工具文件夹放入你的Godot源码树下的 `godot/modules` 目录。 
+4. 将体素工具文件夹重命名为`voxel`。如果正确，文件将被定位到(比如 README.md)`godot/modules/voxel`目录下。 **这一步很重要！**
+5. 重新构建Godot并确保能输出可执行文件。
+6. 测试你的构建版本是否提供体素支持：
+	1. 运行你的新Godot版本。
+	2. 创建一个新项目。
+	3. 创建一个新3D场景。
+	4. 添加一个新节点，查找"Voxel"并检查是否出现 "VoxelTerrain"。如果出现了，您的编译成功了。否则，请重新检查之前的步骤，查看是否有错过了某一步骤或者中途某些过程失败了。
 
 
 ### Updating Your Build
