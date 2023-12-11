@@ -1,4 +1,4 @@
-Multiplayer
+多人游戏
 =============
 
 Multiplayer in a voxel game can be implemented with lots of different details. Not all the features of the engine are supported, it is still a bit experimental and might change in the future. So how to setup multiplayer is explained in sections with a date. The most recent one will often relate to a new/better/simpler way, and old ones might eventually be removed.

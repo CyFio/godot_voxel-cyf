@@ -1,85 +1,84 @@
-Getting Voxel Tools
+获取体素插件
 =====================
 
-This is a C++ module, which needs to get compiled into Godot Engine.
+这是一个C++模块，需要编译进Godot引擎
 
-Precompiled builds
+已经编译好的版本
 -------------------
 
-### Release builds
+### 发布版
 
-Currently there are no builds done "per milestone", we only do development builds of latest versions.
+目前没有对每个里程碑构建，我们只对最新版本构建开发版。
 
-Because the plugin is primarily developped as a module, it comes as a whole custom build of the Godot editor, and might differ a little from the official version.
+因为插件是作为一个模块开发的，因此需要对Godot编辑器做一个完整的自定义编译，这也许会和官方版本不同。
 
-The engine is massive and targets a lot of platforms, while our module is small in comparison and we don't have dedicated build containers, so not all export templates are available. You can develop your game and test it with the editor on main desktop platforms, but if you want to export it, you may need to compile the templates yourself.
+引擎本身比较大并且目标平台多，但我们的模块相比要小且我们没有专属的构建容器，因此不是所有的导出模板都可以获取。你可以通过开发你的游戏并且使用主要的桌面平台测试，但是如果你想导出它，你也许需要自行编译这些模板。
 
-### Development builds
+### 开发版
 
-#### For Godot 4
+#### 面向Godot 4
 
-Available on Github Actions, pick your platform:
+在Github->Actions中可获取，选择你的平台：
 
-- [Windows builds](https://github.com/Zylann/godot_voxel/actions/workflows/windows.yml)
-- [Linux builds](https://github.com/Zylann/godot_voxel/actions/workflows/linux.yml)
-- [Mono builds](https://github.com/Zylann/godot_voxel/actions/workflows/windows.yml) (likely not available, they broke in Godot 4, help is needed to fix them)
+- [Windows构建](https://github.com/Zylann/godot_voxel/actions/workflows/windows.yml)
+- [Linux构建](https://github.com/Zylann/godot_voxel/actions/workflows/linux.yml)
+- [Mono构建](https://github.com/Zylann/godot_voxel/actions/workflows/windows.yml) (很可能不可用，它们在Godot 4以后就寄了，需要修复帮助)
 
-Then click on the latest successful build, with a green checkmark:
+然后，单击勾选最新的成功构建，出现绿色勾
 
 ![Screenshot of a list of builds, with the latest successful one circled in green](images/ci_builds_latest_link.webp)
 
-Then scroll to the bottom, you should see download links:
+再滑动至底部，你应该会看到下载链接：
 
 ![Github actions screenshot](images/github_actions_windows_artifacts.webp)
 
-In case there are multiple downloadable artifacts, the editor build will be the one with `editor` in the name.
+如果存在多个可下载项目，编辑器的构建将是名字带有`editor`的那个。
 
-These builds correspond to the `master` version depicted in the [changelog](https://github.com/Zylann/godot_voxel/blob/master/CHANGELOG.md).
-They are built using Godot's latest stable version branch (for example, `4.0` at time of writing), instead of `master`, unless indicated otherwise.
-A new build is made each time commits are pushed to the main branch, but also when other developers make Pull Requests, so careful about which one you pick.
-
-
-!!! note
-	You will need a Github account to be able to download development builds. Otherwise, links will not work.
-
-#### For Godot 3 (legacy builds)
-
-On Github actions, you may search for builds occurring with the `godot3.x` branch.
-
-Development of new features on that branch stopped though, so it is possible the downloads expired. In which case you may look for a release or compile yourself.
-
-### Tokisan builds (very old)
-
-- Available on [Tokisan Games website](http://tokisan.com/godot-binaries/).
-
-A long while ago, [Cory Petkovsek](https://github.com/tinmanjuggernaut) made full builds of Godot with the module and some additions of his own, including export templates. However they are now way behind the current version so they miss a lot of recent features and setup differences.
+这些版本对应[changelog](https://github.com/Zylann/godot_voxel/blob/master/CHANGELOG.md)中描述的`master`版本。
+它们使用Godot最新的稳定版本分支构建(比如，本文撰写的时间是`4.0`)，而不是Godot的`master`分支，除非特别说明。
+每次提交推送到主分支以及其他开发者创建拉去请求时都会有一次全新的构建，因此您在选择构建版本时需要仔细考虑。
 
 
-Building yourself
+!!! 注意
+	你需要一个Github账号来下载开发版本，否则，链接将无法工作。
+
+#### 面向Godot 3(遗留版本)
+
+在Github action中，你也许需要查找`godot3.x`分支下的版本。
+
+但是，在这些版本上的新特性开发已经停止了，这意味着下载已过期时可能的。在这种情况下，你也许需要找一个发布版本或者自行编译。
+
+### Tokisan 构建 (时先生?非常老)
+
+- 点击链接获取[Tokisan Games website](http://tokisan.com/godot-binaries/).
+
+很久以前， [Cory Petkovsek](https://github.com/tinmanjuggernaut)完整构建Godot并自行添加了一些附加模块，包括导出模板。但是，它们现在可能已经落后于当前版本，因此丢失了许多近期特性和设置差异。
+
+自行编译
 -------------------
 
-These steps will walk you through creating a custom build of Godot with the Voxel Tools module compiled into it.
+这些步骤能帮助你创建一个包含体素插件的自定义Godot编译版本。
 
-### Build Godot
+### 构建Godot
 
-1. Download and compile the [Godot source](https://github.com/godotengine/godot) by following [the official guide](https://docs.godotengine.org/en/latest/development/compiling/index.html). If you want to regularly update your build (recommended), clone the repository with Git instead of downloading a zip file.
-1. Make sure to select the appropriate branches. If you want the very latest development version, use the `master` branch of Godot. If you want a more stable build following the latest stable release, use the branch of that version (for example `4.0`) or a specific version tag (like `4.0.2-stable`). If you want Godot 3, use Godot's `3.x` branch, and the module's `godot3.x` branch (but is no longer maintained). 
-1. Build Godot before adding any other modules and make sure it produces an executable.
-1. Run the newly built executable found in `godot/bin`. Look under Help/About and confirm that the version string indicates you are running the version you want (e.g. `3.2dev.custom_build.ee5ba3e`).
+1. 根据 [官方指南](https://docs.godotengine.org/en/latest/development/compiling/index.html)下载并编译 [Godot 源码](https://github.com/godotengine/godot) . 如果你需要经常更新你的构建 (推荐), 请使用Git克隆该仓库而不是下载zip文件。
+2. 请确保选择了合适的分支。如果你想要最新的开发版本，请使用Godot的`master`分支。如果你想要构建一个的更加稳定的发布版本，使用那个版本对应的分支 (比如`4.0`)或者一个特定的版本标签(比如 `4.0.2-stable`)。如果你想用Godot 3，请使用Godot的`3.x`分支，和模块的`godot3.x`分支 (但是这已经不再维护了)。 
+3. 在添加模块之前，请先构建Godot并且确保构建成功，这会生成可执行文件。
+4. 运行`godot/bin`下新构建的可执行文件。请查看帮助&关于菜单以确认版本号是否和您需要的一致(例如 `3.2dev.custom_build.ee5ba3e`)。
 
 
-### Add Voxel Tools
+### 添加体素插件
 
-1. Download or clone the repository for [Voxel Tools](https://github.com/Zylann/godot_voxel). Use Git to clone the repository if you want to make it easy to update your builds (recommended).
-1. By default, the `master` branch of the module should work with the latest stable branch of Godot. There are "snapshot" branches of the module, which were created at the time specific Godot versions were released (such as `godot4.0`), but they are not updated.
-1. Place the Voxel Tools directory inside your Godot source tree, in the `godot/modules` directory. 
-1. Rename the Voxel Tools folder to `voxel`. When correct, the files (e.g. README.md) will be located in `godot/modules/voxel`. **This is important!**
-1. Rebuild Godot and make sure it produces an executable.
-1. Test that your build has Voxel support:
-	1. Run your new Godot build.
-	1. Create a new project.
-	1. Create a new 3D scene.
-	1. Add a new node, search for "Voxel" and see if "VoxelTerrain" appears. If so, you have a successful build. If not, review these instructions and your build logs to see if you missed a step or something failed along the way.
+1. 下载或克隆[体素工具](https://github.com/Zylann/godot_voxel)仓库。如果你想更轻松地更新你的构建，请使用Git克隆(推荐)。
+2. 默认情况，模块的`master`分支可以在Godot的最新稳定分支下工作。模块有一些“快照”版本，它们在特定的Godot发布版本时创建，但之后不会更新(比如 `godot4.0`)。
+3. 将体素工具文件夹放入你的Godot源码树下的 `godot/modules` 目录。 
+4. 将体素工具文件夹重命名为`voxel`。如果正确，文件将被定位到(比如 README.md)`godot/modules/voxel`目录下。 **这一步很重要！**
+5. 重新构建Godot并确保能输出可执行文件。
+6. 测试你的构建版本是否提供体素支持：
+	1. 运行你的新Godot版本。
+	2. 创建一个新项目。
+	3. 创建一个新3D场景。
+	4. 添加一个新节点，查找"Voxel"并检查是否出现 "VoxelTerrain"。如果出现了，您的编译成功了。否则，请重新检查之前的步骤，查看是否有错过了某一步骤或者中途某些过程失败了。
 
 
 ### Updating Your Build
