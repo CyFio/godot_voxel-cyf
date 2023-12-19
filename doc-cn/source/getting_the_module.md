@@ -81,45 +81,43 @@
 	4. 添加一个新节点，查找"Voxel"并检查是否出现 "VoxelTerrain"。如果出现了，您的编译成功了。否则，请重新检查之前的步骤，查看是否有错过了某一步骤或者中途某些过程失败了。
 
 
-### Updating Your Build
+### 更新你的构建版本
 
-If you cloned Godot and Voxel Tools, you can use git to update your local code.
+如果您克隆了Godot和体素插件，你可以使用git来更新你本地的代码。
 
-1. Go to your local Godot source directory `godot` and run `git pull`. It will download all updates from the repository and merge them into your local source.
-1. Go to `godot/modules/voxel` and run `git pull`. Git will update Voxel Tools.
-1. Rebuild Godot.
+1. 来到您本地的Godot源文件路径`godot`并且运行`git pull`。这样会从仓库拉去所有更新并且将他们合并到您的本地源码中。
+2. 来到`godot/modules/voxel`并且运行`git pull`。Git将更新体素插件。
+3. 重新构建Godot
 
 !!! note
-	Since you are pulling from two projects developped by different people, it's probable that on occasion your build won't compile, your project won't open, or your Voxel Tools won't work properly or even crash Godot. To minimize downtime, save your successful builds. Move them out of the build folder and rename them with the version number (e.g. godot-3.2+ee5ba3e.exe). This way, you can continue to use previously working builds until the Godot or Voxel developers fix whatever is broken. It is generally desired by all that code published to repositories will at least build, but stuff happens.
+	因为你从两个不同人开发的项目进行拉取，所以可能会构建失败，导致你的项目不能打开或者你的体素插件无法正确工作甚至使Godot崩溃。为了减小时间上的损失，请留意保存成功构建的版本，将它们从build文件夹中移出并使用版本号重命名，(例如godot-3.2+ee5ba3e.exe)。通过这种方式，你仍然能过继续使用之前的版本，直到开发者修复问题。虽然通常大家都希望所有发布的代码至少能过通过编译，但避免不了出现错误的情况。
 
-
-C# suppport
+C#支持
 --------------
 
-### Module
+### 模块
 
-C# builds are available on Github Actions as well (as "Mono Builds"). Unfortunately, Godot 4 changed the way C# integrates by using the Nuget package manager. This made it really inconvenient for module developers to provide ready-to-use executables, and hard for users too:
+C#版本在Github Actions中也可获取(作为 "Mono 版本")。 不巧的是，由于Godot4将C#的集成方式改为使用Nuget包管理工具，这使得模块开发者提供开箱即用的可执行文件夹非常不便，而且使使用者会遇到以下困难：
 
-- When you make a project in Godot C#, it fetches the "vanilla" Godot SDK from Nuget, but it is only available for official stable versions, so you can't use CI builds of the engine that use the latest development version of Godot.
-- Modules add new classes to the API which are not present in the official SDK. It would require to create SDKs for every combination of modules you want to use and upload them to Nuget, which isn't practical.
-- You could revert to the latest official SDK available on Nuget, but to access module APIs you would have to use workarounds such as `obj.Get(string)`, `Set(string)` and `Call(string, args)` in code, which is hard to use, inefficient and terrible to maintain.
+- 当你使用C#制作Godot项目时，它会使用Nuget获取"原版"(vanilla)的SDK，但它只支持官方稳定版本，所以你无法使用最新的引擎开发版本进行持续集成(CI)构建。
+- 模块中含有官方SDK没有包含的新类型和API。这要求为您想要使用的每个模块组合创建 SDK 并将它们上传到 Nuget，这是不切实际的.
+- 你可以回退到Nuget上最新的官方SDK，但是这要求您使用`obj.Get(string)`, `Set(string)`，`obj.Get(string)`, `Set(string)`和`Call(string, args)`这些难以使用、低效且难以维护的代码来访问模块的API。
 
-To obtain a working version, you may generate the SDK yourself and use a local Nuget repository instead of the official one. Follow the steps described in the [Godot Documentation for C#](https://docs.godotengine.org/en/stable/contributing/development/compiling/compiling_with_dotnet.html).
-
-
-### GDExtension and C#
-
-The module can also compile as a GDExtension library, which doesn't require to build Godot. However, C# support of extensions implemented in C++ is not well defined at the moment.
+要获得工作版本，您可以自己生成 SDK 并使用本地 Nuget 存储库而不是官方存储库。 按照 [Godot C#文档](https://docs.godotengine.org/en/stable/contributing/development/compiling/compiling_with_dotnet.html). 中描述的步骤操作
 
 
-Export templates
+### GDExtension和C#
+
+该模块还可以编译为 GDExtension 库，不需要构建 Godot。 然而，C# 对 C++ 中实现的扩展的支持目前尚未明确定义。
+
+导出模板
 -------------------
 
-### Getting a template
+### 获取一个模板
 
-In Godot Engine, exporting your game as an executable for a target platform requires a "template". A template is an optimized build of Godot Engine without the editor stuff. Godot combines your project files with that template and makes the final executable.
+在Godot引擎中，将你的游戏导出为目标平台的可执行文件需要一个“模板”。模板是Godot引擎移除编辑器相关部分的优化版本。Godot将你的项目文件和该模板结合生成最终的可执行文件。
 
-If you only download the Godot Editor with the module, it will allow you to develop and test your game, but if you export without any other setup, Godot will attempt to use a vanilla template, which won't have the module. Therefore, it will fail to open some scenes.
+如果你仅下载了包含该模块的Godot编辑器，它将允许你开发和测试你的游戏，但时如果你不进行其他设置就导出，Godot将尝试使用原版的模板，这个模板不含有该模块。因此，它将无法打开某些场景。
 
 As mentionned in earlier sections, there are currently no "official" builds of this module, but you can get template builds at the same place as [latest development versions](#development-builds). Template builds are those with `template` in their name.
 
