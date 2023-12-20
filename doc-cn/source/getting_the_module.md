@@ -119,21 +119,20 @@ C#版本在Github Actions中也可获取(作为 "Mono 版本")。 不巧的是�
 
 如果你仅下载了包含该模块的Godot编辑器，它将允许你开发和测试你的游戏，但时如果你不进行其他设置就导出，Godot将尝试使用原版的模板，这个模板不含有该模块。因此，它将无法打开某些场景。
 
-As mentionned in earlier sections, there are currently no "official" builds of this module, but you can get template builds at the same place as [latest development versions](#development-builds). Template builds are those with `template` in their name.
+正如前面几节提到的，目前没有这个模块的“官方”版本，但是你可以在[最新的开发版本](#development-builds)找到模板版本。模板版本是指那些命名中含有`template`的版本。
 
-If there is no template available for your platform, you may build it yourself. This is the same as building Godot with the module, only with different options. See the [Godot Documentation](https://docs.godotengine.org/en/latest/development/compiling/index.html) for more details, under the "building export templates" category of the platform you target.
+如果没有针对你所用平台的模板，你可以自行编译。这和将Godot与这个模块一起编译的操作是一样的。详见[Godot文档](https://docs.godotengine.org/en/latest/development/compiling/index.html)的"构建导出模板"分类下针对你目标平台的内容。
 
-### Using a template
+### 使用一个模板
 
-Once you have a template build, tell Godot to use it in the Export configurations. Fill in the path to a custom template in the "Custom Template" section:
+当你拥有一个模板版本后，通过导出配置让Godot去使用它。在"自定义模板"一节填写该模板的路径：
 
-![Screenshot of Godot export configuration window with a custom template assigned for Windows](images/export_template_window.webp)
+![Screenshot of Godot export configuration window with a custom template assigned for Windows](../../doc/source/images/export_template_window.webp)
 
 ### GDExtension
 
-In the future, it is hoped that none of this manual work is required. Rather than getting a custom version of the engine, you would download Voxel from the asset library. Developping, testing, exporting would just work without extra setup.
+未来，我们希望本章中所有的手动工作都不再需要。届时你可以直接从资产库中下载体素插件，无需取得一个引擎的自定义版本。开发、测试、导出都不再需要另外设置。
 
-GDExtension is what would make this possible. This module can already [compile with GodotCpp](module_development.md#gdextension) so it can be loaded as a GDExtension library.
-Unfortunately, there are still [too many problems](https://github.com/Zylann/godot_voxel/issues/442) for the module to work properly. For the time being, a custom engine build is more reliable.
+GDExtension将这一点变为可能。这个模块已经可以[和GodotCpp编译](module_development.md#gdextension)，因此它可以作为GDExtension库加载。不巧的是，目前仍然有很多妨碍模块正常工作的[问题](https://github.com/Zylann/godot_voxel/issues/442)。目前，自定义的引擎版本仍然更加可靠。
 
-There are development builds available on [Github Actions](https://github.com/Zylann/godot_voxel/actions/workflows/extension_windows.yml) as we try to keep the module compiling with GodotCpp, however they lack testing and might crash. Use at your own risk.
+目前在[Github Actions](https://github.com/Zylann/godot_voxel/actions/workflows/extension_windows.yml)上可以获得开发版本，我们在尝试保持这个模块能联合GodotCpp编译，但是它们缺少测试，也许会崩溃，使用风险自负。
